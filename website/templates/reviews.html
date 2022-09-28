@@ -1,5 +1,10 @@
-{% extends "base.html" %} {% block title %}reviews {% endblock%}
+{% extends "reviews_div.html" %} {% block title %}{{username}}'s Reviews {% endblock%}
 
-{% block content %}
-<h1>Hello this is a test!</h1>
+{% block header %} {{username}}'s Reviews {% endblock%}
+
+{% block footer %}
+<div align="center">
+    <a class="btn btn-lg btn-secondary" href="/home"> Back </a>
+</div>
 {% endblock%}
+
