@@ -1,6 +1,6 @@
 from flask import Blueprint, render_template, request, flash, redirect, url_for
 from flask_login import login_required, current_user
-from .models import Review, User, Comment
+from .models import Review, User, Comment, Like
 from . import db
 
 
@@ -91,3 +91,22 @@ def delete_comment(comment_id):
         db.session.commit()
 
     return redirect(url_for('views.home'))
+
+
+
+@views.route("/like-review/<review_id>", methods=['GET'])
+@login_required
+def like(review_id): 
+    review = Review.query.filter_by(id=review_id)
+    like = Like.query.filter_by(reviewer=current_user.id, review_id=review_id).first()
+    if not review:
+        flash('Review does not exist', category='error')
+    elif like:
+        db.session.delete(like)
+        db.session.commit()
+    else:
+        like = Like(reviewer=current_user.id, review_id=review_id)
+        db.session.add(like)
+        db.session.commit()
+    return redirect(url_for('views.home'))
+        

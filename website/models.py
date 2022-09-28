@@ -34,3 +34,8 @@ class Comment(db.Model):
     review_id = db.Column(db.Integer, db.ForeignKey('review.id',  ondelete="CASCADE"), nullable=False)
 
     
+class Like(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    date_created = db.Column(db.DateTime(timezone=True), default=func.now())
+    reviewer = db.Column(db.Integer, db.ForeignKey('user.id',  ondelete="CASCADE"), nullable=False)
+    review_id = db.Column(db.Integer, db.ForeignKey('review.id',  ondelete="CASCADE"), nullable=False)
