@@ -1,11 +1,10 @@
 import ast
 import json
 from flask import Blueprint, render_template, redirect, url_for, request, flash, jsonify, make_response
-from Models.users_form_update import form_users_update
 from Services.Books_select import get_books
 from Utilities.Helpers import auth_response, redirect_if_jwt_invalid
 from flask_jwt_extended import unset_jwt_cookies
-from Models.User import User
+from Models.User import User, form_users_update
 from flask_login import login_user, logout_user, login_required, current_user
 from werkzeug.security import generate_password_hash, check_password_hash
 
