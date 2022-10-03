@@ -1,5 +1,5 @@
 import datetime
-from Services.database_monoengine import db
+from Services.Database.database_monoengine import db
 import uuid
 from flask_login import UserMixin
 import mongoengine as me
@@ -35,7 +35,7 @@ class User(me.Document, UserMixin):
     def get_id(self):         
         return str(self.id)
 
-#A form that can be usefull to update User model
+#A form to update the user when needed
 class form_users_update(FlaskForm):
 
 
