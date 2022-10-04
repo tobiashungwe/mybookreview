@@ -13,7 +13,7 @@ from Services.User.users_update import update_users
 
 
 
-mod = Blueprint("auth_routes", __name__)
+mod = Blueprint("auth_routes", __name__, url_prefix="/users")
 
 @mod.route("/login", methods=['GET', 'POST'])
 def login(): 
@@ -42,7 +42,7 @@ def login():
             flash(error_message, category='error')
             error_response(error_message)
             
-    resp = make_response(render_template("login.html", user=current_user) )
+    resp = make_response(render_template("/users/login.html", user=current_user) )
     resp.set_cookie("cookieUsers", str(current_user))
     return resp
 
@@ -94,7 +94,7 @@ def register():
             return redirect(url_for('review_routes.home'), code=200, Response=success_response(new_user.to_json()))
    
     book_list = get_books()
-    resp = make_response(render_template("register.html", user=current_user))  
+    resp = make_response(render_template("/users/register.html", user=current_user))  
     resp.set_cookie("cookieUsers", str(current_user))
     resp.set_cookie('cookieBooks', str(book_list))
     return resp
@@ -113,7 +113,7 @@ def logout():
 @mod.route('/protected')
 @redirect_if_jwt_invalid
 def protected():
-    return render_template("index.html")
+    return render_template("/users/index.html")
 
 
 @mod.route('/users_update', methods=['POST', 'GET'])
@@ -127,8 +127,8 @@ def users_update():
                 usrdict["password"] = my_form.input_password.data
                 msg = update_users(usrdict,
                                    User(user_dict["email"], user_dict["name"], user_dict["password"]))
-                return render_template("users_update.html", form=my_form, email=user_dict["email"], name=user_dict["name"], message=msg)
-        return render_template("users_update.html", form=my_form, email=user_dict["email"], name=user_dict["name"], message="User Updated! ")
+                return render_template("/users/users_update.html", form=my_form, email=user_dict["email"], name=user_dict["name"], message=msg)
+        return render_template("/users/users_update.html", form=my_form, email=user_dict["email"], name=user_dict["name"], message="User Updated! ")
 
     except:
         return redirect(url_for("review_routes.home"))

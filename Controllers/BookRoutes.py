@@ -1,9 +1,10 @@
 import json
+
 import ast
 from typing import List
 from flask import Blueprint, request, render_template, jsonify, make_response, flash
 from flask_login import current_user, login_required
-from Models.Books import BookVolumes
+from Models.Books_volumes import BookVolumes
 from Services.Books.Books_dataframe import df_pandas_book
 from Services.Books.Books_update import update_book
 from Services.Books.Books_select import get_book, get_books
@@ -33,6 +34,7 @@ def index():
 @mod.route("/book", methods=['POST', 'GET'])
 @login_required
 def book():
+    
     if request.method == "POST":
         try:
             #Convert book dictoniries
@@ -87,29 +89,26 @@ def books():
         except:
             pass
 
-    return render_template('books/book.html', user=current_user)
+    return render_template('/books/book.html', user=current_user)
 
-
-'''
-Function insert a new books in mongoDB
-'''
 
 
 @mod.route('/book_add', methods=['POST', 'GET'])
 @login_required
 def book_add():
-
     global book_list
     try:    
         
         df_json = df_pandas_book(str(request.form['book']).lower())
+       
         book_list = get_books()
+        print(book_list)
         user_dict = ast.literal_eval(request.cookies.get("cookieUsers"))
        
         return render_template("/books/index.html", user=current_user, table=book_list.to_html(escape=False, index=False), message="books added!")
 
       
     except:
-            return render_template("/books/index.html", user=current_user, table=book_list.to_html(escape=False, index=False), message="books not found!")
+        return render_template("/books/index.html", user=current_user, table=book_list.to_html(escape=False, index=False), message="books not found!")
 
     return render_template('/books/index.html')

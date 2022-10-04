@@ -18,7 +18,7 @@ def get_book(title: str) -> dict:
 def get_books() -> pandas.DataFrame:
     try:
 
-        book_selected = Services.database_pymongo.ConnectPymongo.db.books
+        book_selected = Services.Database.database_pymongo.ConnectPymongo.db.books
 
         book_dict = book_selected.find()
 
@@ -39,7 +39,7 @@ def get_books() -> pandas.DataFrame:
 def get_dropdown_booklist() -> pandas.DataFrame:
     try:
 
-        book_selected = Services.database_pymongo.ConnectPymongo.db.books
+        book_selected = Services.Database.database_pymongo.ConnectPymongo.db.books
 
         book_dict = book_selected.find()
 

@@ -3,28 +3,29 @@ from flask import Blueprint, render_template, request, flash, redirect, url_for,
 from flask_login import login_required, current_user
 from Models.Comment import Comment
 from Models.Like import Like
-from Services.Books_select import get_dropdown_booklist
-import Services.database_pymongo
+from Services.Books.Books_select import get_dropdown_booklist
+import Services.Database.database_pymongo
 from Models.Review import Review
 from Models.User import User
 from Utilities.Methods import display_error, success_response
 
-
+#no prefix to prevent no page at start
 mod = Blueprint("review_routes", __name__)
 
 @mod.route("/")
-@mod.route("/home")
+@mod.route("/reviews")
+@mod.route("/reviews/home")
 @login_required
 def home(): 
  reviews = Review.objects
  print(reviews)
  success_response(reviews.to_json())
- resp = make_response(render_template("home.html", user=current_user, reviews=reviews))
+ resp = make_response(render_template("/reviews/home.html", user=current_user, reviews=reviews))
  resp.set_cookie("reviews", str(reviews))
  return resp
 
 
-@mod.route("/create-review", methods=['GET','POST'])
+@mod.route("/reviews/create-review", methods=['GET','POST'])
 @login_required
 def create_review(): 
     book_list = get_dropdown_booklist()
@@ -41,9 +42,9 @@ def create_review():
             resp = redirect(url_for('review_routes.home'), code=200, Response=success_response(review.to_json()))
         return resp
     
-    return render_template("create_review.html",  dropdown=book_list.to_html(escape=False, index=False), user=current_user)
+    return render_template("/reviews/create_review.html",  dropdown=book_list.to_html(escape=False, index=False), user=current_user)
 
-@mod.route("/delete-review/<id>")
+@mod.route("/reviews/delete-review/<id>")
 @login_required
 def delete_review(id): 
     review = Review.objects(id=id).first()
@@ -57,7 +58,7 @@ def delete_review(id):
         flash('Review deleted', category='success')
     return redirect(url_for('review_routes.home'), code=200, Response=success_response(review.to_json()))
     
-@mod.route("/reviews/<username>")
+@mod.route("/reviews/reviews/<username>")
 @login_required
 def reviews(username):
     user = User.objects(name=username).first()
@@ -67,11 +68,11 @@ def reviews(username):
         return redirect(url_for('review_routes.home'), code=200, Response=success_response(user.to_json()))
     
     reviews = Review.objects(reviewer=user.id)
-    resp = make_response(render_template("reviews.html", user=current_user, reviews=reviews, username=username))
+    resp = make_response(render_template("/reviews/reviews.html", user=current_user, reviews=reviews, username=username))
     resp.set_cookie("reviews", str(reviews))
     return resp
 
-@mod.route("/create-comment/<review_id>", methods=['POST'])
+@mod.route("/reviews/create-comment/<review_id>", methods=['POST'])
 @login_required
 def create_comment(review_id):
     text = request.form.get('text')
@@ -95,7 +96,7 @@ def create_comment(review_id):
         display_error('Something went wrong, reloading!')
     return redirect(url_for('review_routes.home', code=300 ))
 
-@mod.route("/delete-comment/<comment_id>")
+@mod.route("/reviews/delete-comment/<comment_id>")
 @login_required
 def delete_comment(comment_id): 
     comment = Comment.objects(id=comment_id).first()
@@ -109,45 +110,8 @@ def delete_comment(comment_id):
 
     return redirect(url_for('review_routes.home'), code=200, Response=success_response(comment.to_json()))
 
-# @mod.route("/like-review/<review_id>", methods=['GET'])
-# @login_required
-# def like(review_id) -> None: 
-    
-    
-#     review = Review.objects(id=review_id).first()
-    
-#     if not current_user and not review_id:
-#         if not review:
-#             display_error("Review does not exist")
-#         if not review:
-#             display_error("Please Sign in")
-#     else: 
-       
-#         # Find current review
-#         review = Review.objects.filter(id=review_id).first()
 
-#         # Create a new like for current review
-#         like = Like(reviewer=current_user.id, review_id=review_id)
-
-#         #Check the like list for current user
-#         review_potentially_liked = Review.objects.filter(id=review_id, reviewer=current_user.id).first()
-        
-        
-#         try:
-#             if not review_potentially_liked:
-#                 # Add to like list and save if already liked
-#                 review.likes.append(like)
-#                 review.save()
-#             else:
-#                 #remove from like list if already liked
-#                 review.likes.remove(like)
-#                 review.save()
-#         except:
-#               display_error("Error: Can not like this review for you!")
-                   
-#     return redirect(url_for('review_routes.home'))
-       
-@mod.route("/like-review/<review_id>", methods=['GET'])
+@mod.route("/reviews/like-review/<review_id>", methods=['GET'])
 @login_required
 def like(review_id): 
   
