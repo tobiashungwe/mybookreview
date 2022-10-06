@@ -15,10 +15,23 @@ When you write a review you get assitance from the google api by giving you your
 
 This app requires Python 3+ to run, so install that first
 
+
+1. install a virutal enviroment or update and creating one
+
+ 
+```python
+py -m pip install --upgrade pip
+py -m pip install --user virtualenv
+py -m venv env
+
+```
+
+
 **1. Run a virtual enviroment to setup dependencies activate the enviroment using scripts in project file** 
 ```cd to env folder
- ./Scripts/activate
+.\env\Scripts\activate
 ```
+
 **2. Install the dependencies:**
 
 ```python
