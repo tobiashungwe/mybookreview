@@ -1,30 +1,55 @@
-# import datetime
-from Utilities.Database import db
+import datetime
+from Services.Database.database_monoengine import db
 import uuid
-from Utilities.Helpers import encode, decode
+from flask_login import UserMixin
+import mongoengine as me
+from flask_wtf import FlaskForm
+from wtforms import StringField, PasswordField, validators
+from wtforms.validators import DataRequired
 
 
-class User(db.Document):
-    email = db.StringField(required=True)
-    password = db.BinaryField(required=True)
-    #
+
+class User(me.Document, UserMixin):
+    name = me.StringField(required=True)
+    email = me.StringField(required=True)
+    password = me.StringField(required=True)
+    date_created = me.DateTimeField(default=datetime.datetime.now())
+
+    
+       
     meta = {'collection': 'users', 'strict': False}
+    
+    def to_json(self):        
+        return {"name": self.name,
+                "email": self.email}
+        
+    def is_authenticated(self):
+        return True
 
-    def register(self):
-        # if doesnt exist, encode password and register
-        if not User.objects(email=self.email):
-            self.user_id = str(uuid.uuid4())
-            self.password = encode(self.password)
-            self.save()
-            return True
-        # does exist, do nothing
-        else:
-            return False
+    def is_active(self):   
+        return True           
 
-    def login(self):
-        user = User.objects.filter(email=self.email).first()
-        # if user doesnt exist return error
-        if user and decode(user.password) == self.password:
-            return True
-        else:
-            return False
+    def is_anonymous(self):
+        return False          
+
+    def get_id(self):         
+        return str(self.id)
+
+#A form to update the user when needed
+class form_users_update(FlaskForm):
+
+
+    label_name = StringField("Fullname: ")
+
+
+
+    label_email = StringField("Email......:")
+
+
+
+
+    label_password = StringField("Password: ")
+    input_password = PasswordField("password", validators=[DataRequired(), validators.Length(min=8, max=18)])
+
+    
+

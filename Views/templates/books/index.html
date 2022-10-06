@@ -1,0 +1,39 @@
+{% extends "base.html" %} {% block title %}Personal library {% endblock%}
+
+{% block content %}
+
+<div  class="container mt-4">
+  <div class="form-control p-5">
+
+    <h1 align="center">{% block header %} My books{% endblock %} </h1> 
+    <div class="form-control m-3 p-3">
+        <div class="container-fluid ">
+            <h4 class="h2">{{user.name}}</h4>
+            <form class="" action='/users/users_update' method='post'>
+                <button class="btn btn-primary" type='submit' name='usr' value='{{user}}'>Update</button>
+            </form>
+            <form action="/books/book_add" method="POST" class="form-input">
+                <label for="book">Book name:</label>
+                <p>
+                    <input class="form-control" name="book" autocapitalize="none" id="book" required placeholder="type a book .." size="30">
+                <p>
+                <div class="flex">
+                    <input class="btn btn-success" type="submit" value="Search">
+                <div>
+                    
+            </form>
+        </div>
+    </div>
+    <p>
+   
+    {{message}}<p>
+    {{table|safe}}<p>
+    <div class="d-flex justify-content-end m-3">
+        <a class="btn btn-secondary" href="/">Home</a>
+    </div>
+</div>
+    
+{%block footer %}
+{% endblock %}
+
+{% endblock %}

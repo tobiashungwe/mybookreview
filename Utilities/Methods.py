@@ -1,25 +1,30 @@
 from time import time
-from flask import jsonify, request
+from flask import jsonify, request, flash
 import traceback
+import pandas
 
-
+# All endpoints must return a JSON response with status, data, message and HTTP code.
 def success_response(data, code=200):
     return jsonify({
-        "ok": True,
         "code": code,
+        "status": True,
+        "message": "success",
+        "data": data,
         "endpoint": request.path,
         "timestamp": time(),
-        "count": len(data),
-        "response": data
+        
     })
 
 
 def error_response(msg, code=400):
     data = {
-        "ok": False,
+        
         "code": code,
-        "timestamp": time(),
-        "message": str(msg)
+        "status": False,
+        "message": str(msg),
+        "data": msg,
+        "timestamp": time()
+        
     }
     log_error(data=data, traceback=traceback.print_exc())
     return jsonify(data), 500
@@ -34,3 +39,8 @@ def check_json(json, keys):
 
 def log_error(data, traceback):
     pass
+
+def display_error(msg):
+    flash(msg, category='error')
+    error_response(msg)
+    return None

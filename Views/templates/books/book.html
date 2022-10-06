@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Change books</title>
+</head>
+<body>
+<center>
+
+  
+</center>
+</body>
+</html>
+
+{% extends "base.html" %} {% block title %}Change books {% endblock%}
+
+{% block content %}
+<form action="/books/books" method="post" class="form-control">
+    <label for="title">books {{books}}:</label>
+    <p>
+        <img src="{{pic}}" alt='books' width='30' height='30'>
+    <p>
+        <label  class="form-control" for="volumeinfo">volume-info: {{volumeinfo}}</label>
+    <p>
+        <input type="text" class="form-control" name="volumeinfo" id="volumeinfo" placeholder="update volumeinfo">
+    <p>
+        <input class="btn-primary btn" type="submit" value="Change">
+
+</form>
+
+<form action="/books/book_json" method="get" class="form-control container-fluid">
+    <button class="btn btn-secondary w-100" type="submit" name="books_add" value="{{books}}">json</button>
+</form>
+<div align="center">
+        <a class="btn btn-lg btn-secondary" href="/home"> Back </a>
+</div>
+{% endblock%}

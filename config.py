@@ -5,11 +5,11 @@ app_config = {
 }
 
 mongo_config = {
-    'IP': '',
-    'PORT': 1,
-    'USERNAME': '',
-    'PASSWORD': '',
-    'DB': '',
+    'IP': 'localhost',
+    'PORT': 27017,
+    'USERNAME': 'Tobiti',
+    'PASSWORD': 'xfiE5ysw9PF41y3A',
+    'DB': 'localhost',
     'AUTH': ''
 }
 
@@ -21,7 +21,7 @@ email_config = {
     'PORT': 587
 }
 
-
+crypto_key = 'abcdefghijklmnopqrstuvwxyz'
 session_key = '1'
 secret_key = '1'
 dev_computer_name = ''

@@ -24,15 +24,19 @@
             </button>
             <div class="collapse navbar-collapse" id="navbar">
                 <div class="navbar-nav">
-                    
-                <a href="/home" class="nav-item nav-link">Home</a>
                  {%if user.is_authenticated %}
-                    <a href="/logout" class="nav-item nav-link">Logout</a>
+                    <a href="/reviews/home" class="nav-item nav-link">Reviews</a>
+                    <a href="/books/book" class="nav-item nav-link">My Books & inspiration</a>
+                    <a href="/books/books" class="nav-item nav-link">Update my books</a>
+                    <a href="/users/logout" class="nav-item nav-link">Logout</a>
                     {% else %}
-                    <a href="/login" class="nav-item nav-link">Login</a>
-                    <a href="/register" class="nav-item nav-link">Register</a>
+                    <div class="d-flex">
+                        <a href="/users/login" class="nav-item nav-link">Login</a>
+                        <a href="/users/register" class="nav-item nav-link">Register</a>
+                    </div>
                     {% endif %}
                 </div>
+                
 
             </div>
         </div>

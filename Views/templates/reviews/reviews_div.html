@@ -5,23 +5,26 @@
 <div id="reviews">
     {% for review in reviews %}
     <div class="card border-dark">
-        <div class="card-header d-flex justify-content-between align-items-center">
+        <div class="card-header d-flex justify-content-between align-items-center bg-secondary">
 
-            <a href="/reviews/{{review.user.username}}">{{review.user.username}}</a>
             
+            <div class="p-4">
+                <a class="btn btn-dark" href="/reviews/{{review.reviewer.name}}">{{review.reviewer.name}}</a>
+            </div>
             <div>
+                
                 {{review.likes|length }}
                 {% set liked = false %}
                 {% if user.id in review.likes|map(attribute="reviewer")|list %}
-                <a href="/like-review/{{review.id}}"><i class="fa-solid fa-heart"></i></a>
+                <a href="/reviews/like-review/{{review.id}}"><i class="fa-solid fa-heart"></i></a>
                 {% else %}
-                <a href="/like-review/{{review.id}}"><i class="fa-regular fa-heart"></i></a>
+                <a href="/reviews/like-review/{{review.id}}"><i class="fa-regular fa-heart"></i></a>
                 {% endif %}
                 {% if user.id == review.reviewer %}
                 <div class="btn-group">
                     <button type="button" class="btn btn-sm btn-primary dropdown-toggle" data-bs-toggle="dropdown"></button>
                     <ul class="dropdown-menu">
-                        <li><a href="/delete-review/{{review.id}}" class="dropdown-item">Delete</a></li> 
+                        <li><a href="/reviews/delete-review/{{review.id}}" class="dropdown-item">Delete</a></li> 
                     </ul>
                 </div>
                 {% endif %}
@@ -42,7 +45,7 @@
                         
                             <div class="d-flex justify-content-between align-items-center"> 
                                 <div>
-                                    <a href="/reviews/{{comment.user.username}}">{{comment.user.username}}</a>
+                                    <a href="/reviews/{{comment.reviewer.username}}">{{comment.reviewer.username}}</a>
                                     :{{comment.text}}
                                 </div>
                                 <div>
@@ -84,7 +87,7 @@
 </div>
 {%block footer %}
 <div align="center">
-    <a class="btn btn-primary btn-lg" href="/create-review">
+    <a class="btn btn-primary btn-lg container-fluid mb-4" href="/reviews/create-review">
         Create a review
     </a>
 </div>

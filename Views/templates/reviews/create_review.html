@@ -1,0 +1,46 @@
+{% extends "base.html" %} {% block title %}Create review {% endblock%}
+
+{% block content %}
+
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="panel panel-default">
+                    <h1 class="h1" align="center">Make a book review</h1>
+                    </h2 align="center" class="h2">Here you can find your personal book search history, maybe you could give a review about one of your searches!<h2>
+                
+                </p>
+                </div>
+            </div>
+        </div>
+        <div class="row">        
+        <form class="form-control d-inline-flex " method="post">
+                <div class="w-100">
+                    {{dropdown|safe}}
+                </div>
+                <div class="p-2 m-0">
+                    <div class="card">
+                        <div class="form-group d-flex flex-row bd-highlight  card-header bg-secondary bg-gradient ">
+                            <div class="d-flex row ps-2 bs-2 rounded">
+                            <h3 class="fw-normal">When reviewed, you will create a summary of all the books you have read!</h3>
+                            <p class="fw-bold">This function of getting a summary and seeing the books on your reviews is a future for later!</p>
+                            <p class="fw-light">Now you can use this to refresh your mind and  write a hand written review</p>
+                            <p class="fw-lighter">Don't worry you don't need to review all of your searched books😉</p>
+                            </div>
+                        </div>
+                    </div>
+                    <textarea name="text" id="text" class="form-control mt-2 pt-3 h-50"></textarea>
+                </div>
+        </form>
+        <div class>
+            <div>      
+                <div align="center">
+                    <button type="sumbit" class="btn btn-lg btn-success container-fluid m-2 p-2">Review</button>
+                </div>   
+            <div>
+        </div>
+    <div align="center">
+        <a class="btn btn-lg btn-secondary container-fluid m-2 p-2" href="/home"> Back </a>
+    </div>
+</form>
+{% endblock%}

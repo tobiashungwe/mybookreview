@@ -2,18 +2,20 @@ import re
 import unidecode
 import json
 
-from config import crypto_key
-from cryptography.fernet import Fernet
+
 from functools import wraps
 
 from flask_jwt_extended import create_access_token, set_access_cookies, set_refresh_cookies, create_refresh_token
 from flask_jwt_extended.view_decorators import _decode_jwt_from_request
-from datetime import datetime, timedelta
+from datetime import timedelta
 
 from .Methods import success_response
 
-from flask import redirect, render_template
+from flask import redirect
 
+'''
+Some handy helper methods and to enhance SOC and dry
+'''
 
 def auth_response(username):
     resp = success_response({'login': True})
@@ -51,17 +53,3 @@ def slugify(text):
     text = unidecode.unidecode(text).lower()
     return re.sub(r'[\W_]+', '-', text)
 
-
-def encode(plaintext):
-    cipher_suite = Fernet(crypto_key)
-    cipher_text = cipher_suite.encrypt(str.encode(plaintext))
-    return cipher_text
-
-
-def decode(encoded_text, array=False):
-    cipher_suite = Fernet(crypto_key)
-
-    if array:
-        encoded_text = bytes(encoded_text)
-
-    return cipher_suite.decrypt(encoded_text).decode("utf-8")
